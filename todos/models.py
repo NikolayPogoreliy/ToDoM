@@ -32,4 +32,4 @@ class Tasks(models.Model):
         return self.project.name + ': '+self.title
 
     class Meta:
-        ordering = ['-priority', 'deadline']
+        ordering = ['priority', 'deadline']
