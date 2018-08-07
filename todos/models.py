@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-class Projects(models.Model):
+class Project(models.Model):
     name = models.CharField(blank=False, max_length=200)
     color = models.CharField(default='#f00', max_length=9)
-    owner = models.ForeignKey(to=User, related_name='projects')
+    owner = models.ForeignKey(to=User, related_name='project')
 
     def __str__(self):
         return self.name
@@ -16,7 +16,7 @@ class Projects(models.Model):
 #     pass
 #
 #
-class Tasks(models.Model):
+class Task(models.Model):
     PRIORITY = (
         ('0', {'name': 'hi', 'color': '#f00'}),
         ('1', {'name': 'normal', 'color': '#ff8a00'}),
@@ -24,7 +24,7 @@ class Tasks(models.Model):
     )
     title = models.CharField(blank=False, max_length=200)
     priority = models.CharField(blank=False, choices=PRIORITY, max_length=20)
-    project = models.ForeignKey(to=Projects, related_name='tasks')
+    project = models.ForeignKey(to=Project, related_name='task')
     deadline = models.DateTimeField(blank=False, null=False)
     is_done = models.BooleanField(default=False)
 
