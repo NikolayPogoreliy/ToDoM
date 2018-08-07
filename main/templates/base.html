@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+{
+{% block header %}
+
+<div class="row" id="header-row">
+    <div class="col-2" id="logo">
+
+    </div>
+</div>
+
+{% endblock %}
+{% block main %}
+    <div class="row">
+        <div class="col-3" id="projects-container">
+            <div class="col" id="links">
+                <ul>
+                    <li>
+                        <a class="btn btn-secondary task-retrieve" href="#" data-url="{% url 'task-weekly' %}" >Next 7 days</a>
+                    </li>
+                    <li>
+                        <a class="btn btn-secondary task-retrieve" href="#" data-url="{% url 'task-daily' %}" >Today's</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-8" id="tasks-container">
+
+        </div>
+    </div>
+{% endblock %}

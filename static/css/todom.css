@@ -1,0 +1,25 @@
+#header-row{
+    min-height: 7vh;
+    background-color: grey;
+    margin-bottom: 30px;
+}
+#projects-container{
+    border-right: 2px solid #959595;
+    min-height:83vh;
+}
+.btn.dropdown-toggle-split{
+    background-color: transparent;
+    border: none;
+    color: #cacaca;
+}
+
+.dropdown-menu{
+    padding:0 !important;
+    min-width: 0;
+}
+.project-badge{
+    width:20px;
+    height: 20px;
+    border: 1px solid darkgray;
+    border-radius:10px;
+}
