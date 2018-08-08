@@ -138,7 +138,7 @@ function createTaskItem(task){
     } else if ((24*3600) <= timeleft < (48*3600)){
         taskDeadline.className += ' warning'
     }
-    taskDeadline.innerText = ddl.toString();
+    taskDeadline.innerText = ddl.toLocaleString('ru');
     taskTitleContainer.appendChild(taskTitle);
     taskTitleContainer.appendChild(taskDeadline);
     container.appendChild(taskTitleContainer);
@@ -205,12 +205,10 @@ function createTasksList(data, heading){
     parentContainer.appendChild(container);
 }
 
-
 function prepareTasks(tasks){
     var burning = [];
     var normal = [];
     var finished = [];
-//    tasks.sort(prioritize);
     tasks.forEach(function(task){
         var ddl = new Date(task.deadline);
         var now = new Date();
@@ -359,7 +357,7 @@ function createTask(e){
     var dt = d_o.toJSON().toString();
     var data = {
         title: document.getElementById('title-input').value,
-        project_id: document.getElementById('project-input').value,
+        project: parseInt(document.getElementById('project-input').value),
         priority: document.getElementById('priority-input').value,
         is_done: false,
         deadline: dt,
@@ -374,6 +372,7 @@ function createTask(e){
             "Content-Type": "application/json",
         },
         success: function(data){
+            getAllProjects();
             getTodayTasks();
         },
     });

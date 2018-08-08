@@ -39,6 +39,12 @@ class TaskViewSet(OwnerCreateUpdateMixin, viewsets.ModelViewSet):
     permission_classes = (IsOwnerPermission, )
     serializer_class = TaskSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(project=Project.objects.get(pk=self.request.data['project']))
+
+    def perform_update(self, serializer):
+        serializer.save(project=Project.objects.get(pk=self.request.data['project']))
+
     def get_queryset(self):
         user = self.request.user
         queryset = Task.objects.filter(project__owner=user, is_done=False).select_related()

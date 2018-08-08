@@ -8,7 +8,7 @@ class OwnerCreateUpdateMixin():
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         projects = [p.id for p in Project.objects.filter(owner=self.request.user)]
-        if not int(self.request.data['project_id']) in projects:
+        if not int(self.request.data['project']) in projects:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
@@ -20,7 +20,7 @@ class OwnerCreateUpdateMixin():
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         projects = [p.id for p in Project.objects.filter(owner=self.request.user)]
-        if not int(self.request.data['project_id']) in projects:
+        if not int(self.request.data['project']) in projects:
             return Response(serializer.data, status=status.HTTP_401_UNAUTHORIZED)
         self.perform_update(serializer)
 
