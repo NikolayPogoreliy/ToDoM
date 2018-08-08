@@ -48,14 +48,14 @@ class TaskViewSet(OwnerCreateUpdateMixin, viewsets.ModelViewSet):
     def weekly(self, request):
         user = request.user
         week = datetime.today() + timedelta(days=7)
-        weekly_tasks = Task.objects.filter(project__owner__username=user, is_done=False, deadline__date__gte=datetime.today(), deadline__date__lte=week)
+        weekly_tasks = Task.objects.filter(project__owner__username=user, is_done=False, deadline__date__lte=week).exclude(deadline__date=datetime.today())
         serializer = self.get_serializer(weekly_tasks, many=True)
         return Response(serializer.data)
 
     @action(methods=['GET'], detail=False)
     def daily(self, request):
         user = request.user
-        daily_tasks = Task.objects.filter(project__owner__username=user, is_done=False, deadline__date=datetime.today())
+        daily_tasks = Task.objects.filter(project__owner__username=user, is_done=False, deadline__date__lte=datetime.today())
         serializer = self.get_serializer(daily_tasks, many=True)
         return Response(serializer.data)
 

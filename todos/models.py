@@ -17,13 +17,9 @@ class Project(models.Model):
 #
 #
 class Task(models.Model):
-    PRIORITY = (
-        ('0', {'name': 'hi', 'color': '#f00'}),
-        ('1', {'name': 'normal', 'color': '#ff8a00'}),
-        ('2', {'name': 'low', 'color': '#fff'})
-    )
+
     title = models.CharField(blank=False, max_length=200)
-    priority = models.CharField(blank=False, choices=PRIORITY, max_length=20)
+    priority = models.CharField(blank=False, max_length=20)
     project = models.ForeignKey(to=Project, related_name='task')
     deadline = models.DateTimeField(blank=False, null=False)
     is_done = models.BooleanField(default=False)

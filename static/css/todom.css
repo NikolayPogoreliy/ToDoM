@@ -7,6 +7,18 @@
     border-right: 2px solid #959595;
     min-height:83vh;
 }
+#links{
+    padding-bottom: 30px;
+    border-bottom: 1px solid #c0c0c0;
+}
+#links > div {
+    margin-bottom:5px;
+}
+#projects{
+    padding-top:30px;
+    min-height:60vh;
+}
+
 .btn.dropdown-toggle-split{
     background-color: transparent;
     border: none;
@@ -22,4 +34,82 @@
     height: 20px;
     border: 1px solid darkgray;
     border-radius:10px;
+    margin-right: 1rem;
+}
+
+.project-badge-small{
+    width:10px;
+    height: 10px;
+    border: 1px solid darkgray;
+    border-radius:50px;
+    margin-right: 1rem;
+}
+
+.dropdown-menu.show{
+    display: inherit !important;
+    top: -3px !important;
+
+}
+li.list-group-item.custom-list-group-item{
+    padding: .2rem 1.25rem !important;
+}
+.tasks-cnt, .task-deadline{
+    font-style: italic;
+    color: #c0c0c0;
+}
+.tasks-cnt{
+    font-size: 12px;
+}
+.task-deadline{
+    font-size:12px;
+}
+.doned{
+    color: green;
+}
+.warning{
+    color: #ffd800;
+}
+.row.burning{
+    background-color: #ffa4a4;
+}
+.task-deadline.burning,
+.tasks-cnt.burning,
+ .burning div button i{
+    color: red;
+
+}
+.task-badge{
+    width: 20px;
+    height: 20px;
+    border: 2px solid darkgrey;
+}
+.tasks-project{
+    padding-right: 0;
+    font-size: 11px;
+    color: #a0a0a0;
+    font-style: italic;
+}
+.task-title, .task-deadline{
+    margin-bottom:0;
+}
+.all-tasks-title{
+    margin-bottom:30px;
+}
+.all-tasks-container{
+    padding: 15px 0;
+    margin-top: 0;
+}
+.all-tasks-container{
+    border-bottom: 1px solid #959595;
+}
+.disabled{
+    background-color: darkgray;
+    color: white !important;
+}
+.selected-project{
+    background-color: #cdf6c5;
+}
+#add-task{
+    padding-top:30px;
+    min-height: 40vh;
 }

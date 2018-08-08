@@ -12,19 +12,28 @@
 {% block main %}
     <div class="row">
         <div class="col-3" id="projects-container">
-            <div class="col" id="links">
-                <ul>
-                    <li>
-                        <a class="btn btn-secondary task-retrieve" href="#" data-url="{% url 'task-weekly' %}" >Next 7 days</a>
-                    </li>
-                    <li>
-                        <a class="btn btn-secondary task-retrieve" href="#" data-url="{% url 'task-daily' %}" >Today's</a>
-                    </li>
-                </ul>
+            <div class="row" id="links">
+                <div class="col-10 offset-sm-1">
+                    <a class="btn btn-secondary btn-block weekly-tasks" href="#" data-url="{% url 'task-weekly' %}" >Next 7 days</a>
+                </div>
+                <div class="col-10 offset-sm-1">
+                    <a class="btn btn-secondary btn-block todays-tasks" href="#" data-url="{% url 'task-daily' %}" >Today's</a>
+                </div>
+            </div>
+            <div class="row" id="projects"></div>
+            <div class="row" id="add-project">
+                <div class="col-12">
+                    <button class="btn btn-secondary btn-block add-project" ><i class="far fa-plus-square"></i> Add project </button>
+                </div>
             </div>
         </div>
         <div class="col-8" id="tasks-container">
-
+            <div class="row" id="tasks"></div>
+            <div class="row  align-items-end justify-content-end" id="add-task">
+                <div class="col-3 align-self-end">
+                    <button class="btn btn-secondary btn-block add-task" ><i class="far fa-plus-square"></i> Add task </button>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

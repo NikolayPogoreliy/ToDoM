@@ -6,7 +6,7 @@ class BaseProjectSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['url', 'name', 'color']
+        fields = ['id','url', 'name', 'color']
 
 
 class TaskSerializer(serializers.ModelSerializer):
