@@ -1,9 +1,30 @@
 {% extends "index.html" %}
+{% block header %}
 
+<div class="row justify-content-start align-items-center" id="header-row">
+    <div class="col-8" id="logo">
+
+    </div>
+</div>
+
+{% endblock %}
 {% block main %}
-    <form action="" method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">SignIn</button>
-    </form>
+<div class="col-12 row align-items-center justify-content-center single-content">
+            <div class="col-auto"><h1>ToDoooM! Welcome to the ToDoManager!!!</h1></div>
+            <div class="col-auto"><h2>We will help You to manage your task, promises and deals!!!</h2></div>
+            <div class=" w-100"></div>
+            <div class="col-auto row">
+                <form action="" method="post">
+                  <div col="col-auto form-group">
+                      {% csrf_token %}
+                      {{ form.as_p }}
+                  </div>
+                  <div class="col-auto form-group">
+                      <button class='btn btn-success btn-lg auth-btn' type="submit">SignIn</button>
+                  </div>
+
+                </form>
+            </div>
+        </div>
+
 {% endblock %}

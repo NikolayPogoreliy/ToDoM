@@ -1,39 +1,67 @@
 {% extends "index.html" %}
-{
+
 {% block header %}
 
-<div class="row" id="header-row">
-    <div class="col-2" id="logo">
+<div class="row justify-content-around align-items-center" id="header-row">
+    <div class="col-8" id="logo">
 
     </div>
+    {% if user.is_authenticated %}
+    <div class="col-2" id="burning-tasks">
+        <button class="btn btn-block btn-danger" data-url="{% url 'task-burning' %}" id="burning-task-button">BURNING</button>
+    </div>
+    <div class="col-1" id="finished-tasks">
+        <button class="btn btn-block btn-info" data-url="{% url 'task-finished' %}" id="finished-task-button">ARCHIVE</button>
+    </div>
+    <div class="col-1" id="logout">
+        <a class='btn btn-light' href="{% url 'logout' %}">Logout</a>
+    </div>
+    {% endif %}
 </div>
 
 {% endblock %}
 {% block main %}
     <div class="row">
+        {% if user.is_authenticated %}
         <div class="col-3" id="projects-container">
             <div class="row" id="links">
                 <div class="col-10 offset-sm-1">
-                    <a class="btn btn-secondary btn-block weekly-tasks" href="#" data-url="{% url 'task-weekly' %}" >Next 7 days</a>
+                    <a class="btn btn-light btn-block todays-tasks" href="#" data-url="{% url 'task-daily' %}" >Today's</a>
                 </div>
                 <div class="col-10 offset-sm-1">
-                    <a class="btn btn-secondary btn-block todays-tasks" href="#" data-url="{% url 'task-daily' %}" >Today's</a>
+                    <a class="btn btn-light btn-block weekly-tasks" href="#" data-url="{% url 'task-weekly' %}" >Next 7 days</a>
+                </div>
+            </div>
+             <div class="row justify-content-end" id="add-project">
+                <div class="col-6">
+                    <button class="btn btn-secondary btn-sm btn-block add-project" id="add-project-button"><i class="far fa-plus-square"></i> Add project </button>
                 </div>
             </div>
             <div class="row" id="projects"></div>
-            <div class="row" id="add-project">
-                <div class="col-12">
-                    <button class="btn btn-secondary btn-block add-project" ><i class="far fa-plus-square"></i> Add project </button>
-                </div>
-            </div>
+
         </div>
         <div class="col-8" id="tasks-container">
-            <div class="row" id="tasks"></div>
             <div class="row  align-items-end justify-content-end" id="add-task">
                 <div class="col-3 align-self-end">
-                    <button class="btn btn-secondary btn-block add-task" ><i class="far fa-plus-square"></i> Add task </button>
+                    <button class="btn btn-secondary btn-block add-task" id="add-task-button"><i class="far fa-plus-square"></i> Add task </button>
                 </div>
             </div>
+            <div class="row" id="tasks"></div>
+
         </div>
+        {% else %}
+        <div class="col-12 row align-items-center justify-content-center single-content">
+            <div class="col-auto"><h1>ToDoooM! Welcome to the ToDoManager!!!</h1></div>
+            <div class="col-auto"><h2>We will help You to manage your task, promises and deals!!!</h2></div>
+            <div class=" w-100"></div>
+            <div class="col-auto"><h3>Please</h3></div>
+            <div class=" w-100"></div>
+            <div class="col-auto row">
+                <a class="btn btn-lg btn-success auth-btn" href="{% url 'login' %}">Sign In</a>
+                <h3> or </h3>
+                <a class="btn btn-lg btn-info auth-btn" href="{% url 'register' %}">Sign Up</a>
+            </div>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

@@ -22,10 +22,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
 
     def destroy(self, request, *args, **kwargs):
-        print(request.data)
+        instance = self.get_object()
         proj_id = kwargs['pk']
         if not Task.objects.filter(project=proj_id, is_done=False).count():
-            super(ProjectViewSet, self).destroy(self, request, *args, **kwargs)
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -44,6 +45,8 @@ class TaskViewSet(OwnerCreateUpdateMixin, viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         serializer.save(project=Project.objects.get(pk=self.request.data['project']))
+
+
 
     def get_queryset(self):
         user = self.request.user

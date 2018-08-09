@@ -30,6 +30,6 @@ class UserLogin(FormView):
 class UserLogout(View):
 
     @staticmethod
-    def get(self, request):
+    def get(request):
         logout(request)
         return HttpResponseRedirect("/")

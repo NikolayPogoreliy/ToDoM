@@ -8,17 +8,18 @@
     min-height:83vh;
 }
 #links{
-    padding-bottom: 30px;
+    padding-bottom: 15px;
     border-bottom: 1px solid #c0c0c0;
 }
 #links > div {
     margin-bottom:5px;
 }
-#projects{
-    padding-top:30px;
-    min-height:60vh;
+#add-project{
+    padding-top:15px;
 }
-
+.add-project{
+    border-radius: 12px;
+}
 .btn.dropdown-toggle-split{
     background-color: transparent;
     border: none;
@@ -30,13 +31,20 @@
     min-width: 0;
 }
 .project-badge{
-    width:20px;
-    height: 20px;
+    width:16px;
+    height: 16px;
     border: 1px solid darkgray;
-    border-radius:10px;
+    border-radius:8px;
     margin-right: 1rem;
 }
-
+#project-form{
+    padding-top: 0.5rem;
+    padding-bottom: 0.2rem;
+}
+#task-form{
+    padding-top: 1.5rem;
+    padding-bottom: 0.2rem;
+}
 .project-badge-small{
     width:10px;
     height: 10px;
@@ -67,7 +75,7 @@ li.list-group-item.custom-list-group-item{
     color: green;
 }
 .warning{
-    color: #ffd800;
+    color: orange;
 }
 .row.burning{
     background-color: #ffa4a4;
@@ -101,15 +109,27 @@ li.list-group-item.custom-list-group-item{
 }
 .all-tasks-container{
     border-bottom: 1px solid #959595;
+    border-radius: 20px;
 }
 .disabled{
+    opacity: 0.5;
     background-color: darkgray;
     color: white !important;
 }
 .selected-project{
     background-color: #cdf6c5;
 }
-#add-task{
-    padding-top:30px;
-    min-height: 40vh;
+.add-task,
+#links .btn,
+#logout .btn,
+#burning-task-button,
+#finished-task-button {
+    border-radius:15px;
+}
+.auth-btn{
+    border-radius:20px;
+    margin:0 30px;
+}
+.single-content{
+    margin-top: 30vh;
 }
