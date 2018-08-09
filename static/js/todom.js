@@ -54,10 +54,10 @@ $(document).ready(function(){
         e.preventDefault();
         finishTask(e);
     });
-    $('#tasks').on('click','.delete-task', function(e){
-        e.preventDefault();
-        deleteTask(e);
-    });
+//    $('#tasks').on('click','.delete-task', function(e){
+//        e.preventDefault();
+//        deleteTask(e);
+//    });
     $('.add-project').on('click', function(e){
         e.preventDefault();
         getProjectCreationForm('/projects/');
@@ -72,8 +72,33 @@ $(document).ready(function(){
         $('#add-project-button').prop('disabled', true);
         $('.edit-project').prop('disabled', true);
     });
-    $('#projects').on('click','.delete-project', function(e){
+//    $('#projects').on('click','.delete-project', function(e){
+//        e.preventDefault();
+//        deleteProject(e);
+//    });
+    $('body').on('click','#modal-delete-button', function(e){
         e.preventDefault();
-        deleteProject(e);
+        var isProject = e.currentTarget.dataset['isProject'];
+        if (isProject=='true'){
+            deleteProject(e);
+        } else {
+            deleteTask(e);
+        }
+        $('#deleteModal').modal('hide')
+    });
+
+    $('#deleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var url = button.data('url') // Extract info from data-* attributes
+        var isProject = button.data('isProject');
+        var name = button.data('name');
+        var id = button.data('id');
+        var modal = $(this)
+        var ob = 'task ';
+        if (isProject) {ob='project ';}
+        modal.find('.modal-body').text("Do you really want to delete "+ob+name+"?");
+        var delBtn = document.getElementById('modal-delete-button');
+        delBtn.dataset['url'] = url;
+        delBtn.dataset['isProject'] = isProject;
     });
 });

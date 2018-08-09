@@ -17,6 +17,11 @@
 #add-project{
     padding-top:15px;
 }
+.edit-project,
+.edit-task,
+.delete-project,
+.delete-task,
+.done-task,
 .add-project{
     border-radius: 12px;
 }
@@ -25,7 +30,10 @@
     border: none;
     color: #cacaca;
 }
-
+.update-btn,
+.cancel-btn{
+    border-radius: 15px;
+}
 .dropdown-menu{
     padding:0 !important;
     min-width: 0;
@@ -55,8 +63,9 @@
 
 .dropdown-menu.show{
     display: inherit !important;
-    top: -3px !important;
-
+    top: 2px !important;
+    background-color: transparent;
+    border: none;
 }
 li.list-group-item.custom-list-group-item{
     padding: .2rem 1.25rem !important;
@@ -120,6 +129,7 @@ li.list-group-item.custom-list-group-item{
     background-color: #cdf6c5;
 }
 .add-task,
+.modal-btn,
 #links .btn,
 #logout .btn,
 #burning-task-button,
@@ -132,4 +142,18 @@ li.list-group-item.custom-list-group-item{
 }
 .single-content{
     margin-top: 30vh;
+}
+.btn:focus {
+    box-shadow: none;
+}
+.edit-project,
+.edit-task{
+    background-color:#77765c;
+}
+.delete-project,
+.delete-task{
+    background-color:#775c5c;
+}
+.done-task{
+    background-color:#2d773a;
 }

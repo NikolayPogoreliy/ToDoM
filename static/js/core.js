@@ -37,6 +37,14 @@ function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
+function rgb2hex(rgb){
+    rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+    return (rgb && rgb.length === 4) ? "#" +
+    ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+    ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+    ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+}
+
 function createProjectItem(id, url, name, color, tasks, done, have_burning){
 
     var el = createTagElement('li',' list-group-item custom-list-group-item');
@@ -68,15 +76,18 @@ function createProjectItem(id, url, name, color, tasks, done, have_burning){
     menuButton.appendChild(icon);
     menuContainer.appendChild(menuButton);
     var container = createTagElement('div', 'dropdown-menu');
-    var button = createTagElement('button', 'btn btn-secondary prevented edit-project', '', '{"href":"#", "innerText":"Edit"}');
+    var button = createTagElement('button', 'btn  btn-sm btn-secondary prevented edit-project', '', '{"href":"#", "innerText":"Edit"}');
     button.dataset['url'] = url;
     button.dataset['method']='put';
     button.dataset['projectid'] = id;
     container.appendChild(button);
-    button = createTagElement('button', 'btn btn-secondary prevented delete-project', '', '{"href":"#", "innerText":"Delete"}');
+    button = createTagElement('button', 'btn  btn-sm btn-secondary prevented delete-project', '', '{"href":"#", "innerText":"Delete"}');
     button.dataset['url'] = url;
-    button.dataset['method']='delete';
-    button.dataset['projectid'] = id;
+    button.dataset['isProject']=true;
+    button.dataset['name']=name;
+    button.dataset['id'] = id;
+    button.dataset['toggle'] = "modal";
+    button.dataset['target'] = "#deleteModal";
     container.appendChild(button);
     menuContainer.appendChild(container);
     outerContainer.appendChild(badgeContainer);
@@ -173,13 +184,13 @@ function createTaskItem(task){
     menuButton.appendChild(icon);
     menuContainer.appendChild(menuButton);
     var container = createTagElement('div', 'dropdown-menu');
-    var button = createTagElement('button', 'btn btn-secondary prevented done-task', '', '{"href":"#", "innerText":"Done"}');
+    var button = createTagElement('button', 'btn btn-sm btn-secondary prevented done-task', '', '{"href":"#", "innerText":"Done"}');
     button.dataset['url'] = task.url;
     button.dataset['taskProject'] = task.project.id;
     button.dataset['method']='put';
     button.dataset['taskid'] = 'task-'+task.id;
     container.appendChild(button);
-    button = createTagElement('button', 'btn btn-secondary prevented edit-task', '', '{"href":"#", "innerText":"Edit"}');
+    button = createTagElement('button', 'btn btn-sm btn-secondary prevented edit-task', '', '{"href":"#", "innerText":"Edit"}');
     button.dataset['url'] = task.url;
     button.dataset['method']='put';
     button.dataset['taskid'] = 'task-'+task.id;
@@ -188,10 +199,15 @@ function createTaskItem(task){
     button.dataset['taskPriority'] = task.priority;
     button.dataset['taskDeadline'] = task.deadline;
     container.appendChild(button);
-    button = createTagElement('button', 'btn btn-secondary prevented delete-task', '', '{"href":"#", "innerText":"Delete"}');
+    button = createTagElement('button', 'btn btn-sm btn-secondary prevented delete-task', '', '{"href":"#", "innerText":"Delete"}');
     button.dataset['url'] = task.url;
     button.dataset['method']='delete';
     button.dataset['taskid'] = 'task-'+task.id;
+    button.dataset['isProject']=false;
+    button.dataset['name']=task.title;
+    button.dataset['id'] = task.id;
+    button.dataset['toggle'] = "modal";
+    button.dataset['target'] = "#deleteModal";
     container.appendChild(button);
     menuContainer.appendChild(container);
     outerContainer.appendChild(menuContainer);
@@ -279,22 +295,15 @@ function getProjectCreationForm(url){
     container.appendChild(input);
     outerContainer.appendChild(container);
 
-//    container = createTagElement('div', 'col-10 offset-sm-1 form-group')
-//    var button = createTagElement('button','btn btn-primary btn-block','update-btn','{"innerText":"CREATE"}');
-//    button.dataset['url'] = url;
-//    button.addEventListener('click', createProject);
-//    container.appendChild(button);
-//    outerContainer.appendChild(container);
-
     innerContainer = createTagElement('div','col-12 row');
     container = createTagElement('div', 'col-4');
-    var button = createTagElement('button','btn btn-primary btn-block','update-btn','{"innerText":"Save"}');
+    var button = createTagElement('button','btn btn-primary btn-block update-btn','','{"innerText":"Save"}');
     button.dataset['url'] = url;
     button.addEventListener('click', createProject);
     container.appendChild(button);
     innerContainer.appendChild(container);
     container = createTagElement('div', 'col-4');
-    var button = createTagElement('button','btn btn-secondary btn-block','cancel-btn','{"innerText":"Cancel"}');
+    var button = createTagElement('button','btn btn-secondary btn-block cancel-btn','','{"innerText":"Cancel"}');
     button.dataset['url'] = url;
     button.addEventListener('click', function(){
         parentContainer.removeChild(outerContainer);
@@ -311,6 +320,53 @@ function getProjectCreationForm(url){
     outerContainer.appendChild(innerContainer);
 
     parentContainer.appendChild(outerContainer);
+}
+
+function getProjectEditForm(url, id){
+
+    var old = document.getElementById('proj-'+id);
+    var parent = old.parentNode;
+    var color = rgb2hex(document.getElementById('project-color-'+id).style.backgroundColor);
+    var name = document.getElementById('project-name-'+id).innerText;
+    var colorIn = createTagElement('input', 'form-control','color-input','{"name":"color-input", "type":"color"}');
+    colorIn.value = color;
+    colorIn.style = 'width: 40px; height: 40px; border-radius: 50%;';
+    var nameIn = createTagElement('input', 'form-control','name-input','{"name":"name-input", "type":"text", "placeholder":"Name"}');
+    nameIn.value = name;
+    var outerContainer = createTagElement('div', 'row', 'edit-proj-'+id);
+    var innerContainer = createTagElement('div', 'col-12 row');
+    var container = createTagElement('div', 'col-3 form-group');
+    container.appendChild(colorIn);
+    innerContainer.appendChild(container);
+    container = createTagElement('div', 'col-9 form-group');
+    container.appendChild(nameIn);
+    innerContainer.appendChild(container);
+    outerContainer.appendChild(innerContainer);
+    innerContainer = createTagElement('div','col-12 row');
+    container = createTagElement('div', 'col-4');
+    var button = createTagElement('button','btn btn-primary btn-block update-btn','','{"innerText":"Save"}');
+    button.dataset['url'] = url;
+    button.addEventListener('click', editProject);
+    container.appendChild(button);
+    innerContainer.appendChild(container);
+    container = createTagElement('div', 'col-4');
+    var button = createTagElement('button','btn btn-secondary btn-block cancel-btn','','{"innerText":"Cancel"}');
+    button.dataset['url'] = url;
+    button.addEventListener('click', function(){
+        parent.replaceChild(old, outerContainer);
+        var el = document.getElementsByClassName('edit-project');
+        for (var i=0; i < el.length; i++){
+            el.item(i).disabled=false;
+        }
+        var btn = document.getElementById('add-project-button');
+        btn.disabled = false;
+
+    });
+    container.appendChild(button);
+    innerContainer.appendChild(container);
+    outerContainer.appendChild(innerContainer);
+    parent.replaceChild(outerContainer, old);
+
 }
 
 function taskCreationEditForm(url, values=null, is_edit=false){
@@ -385,14 +441,14 @@ function getTaskCreationForm(url){
 
     var buttonContainer = createTagElement('div','col-12 row justify-content-center');
     var container = createTagElement('div', 'col-2 form-group')
-    var button = createTagElement('button','btn btn-primary btn-block','update-btn','{"innerText":"Create"}');
+    var button = createTagElement('button','btn btn-primary btn-block update-btn','','{"innerText":"Create"}');
     button.dataset['url'] = url;
     button.addEventListener('click', createTask);
     container.appendChild(button);
     buttonContainer.appendChild(container);
 
     var container = createTagElement('div', 'col-2 form-group')
-    var button = createTagElement('button','btn btn-secondary btn-block','update-btn','{"innerText":"Cancel"}');
+    var button = createTagElement('button','btn btn-secondary btn-block cancel-btn','','{"innerText":"Cancel"}');
     button.addEventListener('click', function(){
         parent.removeChild(formContainer);
         var el = document.getElementsByClassName('edit-task');
@@ -423,14 +479,14 @@ function getTaskEditForm(url, id, title, priority, project, deadline){
     var formContainer = taskCreationEditForm(url, values, true);
     var buttonContainer = createTagElement('div','col-12 row justify-content-center');
     var container = createTagElement('div', 'col-2 form-group')
-    var button = createTagElement('button','btn btn-primary btn-block','update-btn','{"innerText":"Save"}');
+    var button = createTagElement('button','btn btn-primary btn-block update-btn','','{"innerText":"Save"}');
     button.dataset['url'] = url;
     button.addEventListener('click', editTask);
     container.appendChild(button);
     buttonContainer.appendChild(container);
 
     var container = createTagElement('div', 'col-2 form-group')
-    var button = createTagElement('button','btn btn-secondary btn-block','update-btn','{"innerText":"Cancel"}');
+    var button = createTagElement('button','btn btn-secondary btn-block cancel-btn','','{"innerText":"Cancel"}');
     button.addEventListener('click', function(){
         parent.replaceChild(old, formContainer);
         var el = document.getElementsByClassName('edit-task');
@@ -447,53 +503,6 @@ function getTaskEditForm(url, id, title, priority, project, deadline){
     buttonContainer.appendChild(container);
     formContainer.appendChild(buttonContainer);
     parent.replaceChild(formContainer, old);
-
-}
-
-function getProjectEditForm(url, id){
-
-    var old = document.getElementById('proj-'+id);
-    var parent = old.parentNode;
-    var color = document.getElementById('project-color-'+id).style.backgroundColor;
-    var name = document.getElementById('project-name-'+id).innerText;
-    var colorIn = createTagElement('input', 'form-control','color-input','{"name":"color-input", "type":"color"}');
-    colorIn.value = color;
-    colorIn.style = 'width: 40px; height: 40px; border-radius: 50%;';
-    var nameIn = createTagElement('input', 'form-control','name-input','{"name":"name-input", "type":"text", "placeholder":"Name"}');
-    nameIn.value = name;
-    var outerContainer = createTagElement('div', 'row', 'edit-proj-'+id);
-    var innerContainer = createTagElement('div', 'col-12 row');
-    var container = createTagElement('div', 'col-3 form-group');
-    container.appendChild(colorIn);
-    innerContainer.appendChild(container);
-    container = createTagElement('div', 'col-9 form-group');
-    container.appendChild(nameIn);
-    innerContainer.appendChild(container);
-    outerContainer.appendChild(innerContainer);
-    innerContainer = createTagElement('div','col-12 row');
-    container = createTagElement('div', 'col-4');
-    var button = createTagElement('button','btn btn-primary btn-block','update-btn','{"innerText":"Save"}');
-    button.dataset['url'] = url;
-    button.addEventListener('click', editProject);
-    container.appendChild(button);
-    innerContainer.appendChild(container);
-    container = createTagElement('div', 'col-4');
-    var button = createTagElement('button','btn btn-secondary btn-block','cancel-btn','{"innerText":"Cancel"}');
-    button.dataset['url'] = url;
-    button.addEventListener('click', function(){
-        parent.replaceChild(old, outerContainer);
-        var el = document.getElementsByClassName('edit-project');
-        for (var i=0; i < el.length; i++){
-            el.item(i).disabled=false;
-        }
-        var btn = document.getElementById('add-project-button');
-        btn.disabled = false;
-
-    });
-    container.appendChild(button);
-    innerContainer.appendChild(container);
-    outerContainer.appendChild(innerContainer);
-    parent.replaceChild(outerContainer, old);
 
 }
 
