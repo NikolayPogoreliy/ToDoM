@@ -12,10 +12,6 @@ class Project(models.Model):
         return self.name
 
 
-# class TaskPriority(models.Model):
-#     pass
-#
-#
 class Task(models.Model):
 
     title = models.CharField(blank=False, max_length=200)

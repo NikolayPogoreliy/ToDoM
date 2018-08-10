@@ -384,7 +384,7 @@ function getProjectEditForm(url, id){
 }
 
 function taskCreationEditForm(url, values=null, is_edit=false){
-
+    var priorities = PRIORITIES;
     var title = '';
     var priority = '';
     var project = '';
@@ -423,7 +423,7 @@ function taskCreationEditForm(url, values=null, is_edit=false){
     var container = createTagElement('div', 'col form-group')
     var input = createTagElement('select','form-control','priority-input','{"name":"priority-input"}');
     var label = createTagElement('label','form-check-label','','{"for":"priority-input", "innerText": "Priority"}');
-    PRIORITIES.forEach(function(prio){
+    priorities.forEach(function(prio){
         var option = createTagElement('option');
         option.value = prio[0];
         option.innerText = prio[1];
@@ -441,7 +441,6 @@ function taskCreationEditForm(url, values=null, is_edit=false){
     container.appendChild(label);
     container.appendChild(input);
     parentContainer.appendChild(container);
-
 
     return parentContainer;
 }
@@ -509,9 +508,6 @@ function getTaskEditForm(url, id, title, priority, project, deadline){
         }
         var btn = document.getElementById('add-task-button');
         btn.disabled = false;
-//        el.forEach(function(item){
-//            item.disabled=false;
-//        });
     });
     container.appendChild(button);
     buttonContainer.appendChild(container);
@@ -575,9 +571,8 @@ function createTask(e){
     d_o = new Date(d);
     var dt = '';
     try{
-        var dt = d_o.toJSON().toString();
+        dt = d_o.toJSON().toString();
     } catch(e){}
-
 
     var data = {
         title: document.getElementById('title-input').value,
@@ -612,8 +607,10 @@ function editTask(e){
     var url = e.currentTarget.dataset['url'];
     var d = document.getElementById('date-input').value;
     d_o = new Date(d);
-
-    var dt = d_o.toJSON().toString();
+    var dt = '';
+    try{
+        dt = d_o.toJSON().toString();
+    } catch(e){}
     var data = {
         title: document.getElementById('title-input').value,
         project: parseInt(document.getElementById('project-input').value),
