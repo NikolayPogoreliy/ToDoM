@@ -84,7 +84,7 @@ $(document).ready(function(){
         } else {
             deleteTask(e);
         }
-        $('#deleteModal').modal('hide')
+        $('#deleteModal').modal('hide');
     });
 
     $('#deleteModal').on('show.bs.modal', function (event) {

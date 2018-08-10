@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect
 
 class UserRegister(FormView):
     form_class = UserCreationForm
-    success_url = '/login/'
+    success_url = '/auth/login/'
     template_name = 'register.html'
 
     def form_valid(self, form):

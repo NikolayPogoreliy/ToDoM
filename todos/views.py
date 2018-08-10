@@ -28,7 +28,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             self.perform_destroy(instance)
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(data= r'You can`t delete project untill all tasks will be finished!!! ', status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
         user = self.request.user

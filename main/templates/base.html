@@ -1,25 +1,6 @@
 {% extends "index.html" %}
 
-{% block header %}
 
-<div class="row justify-content-around align-items-center" id="header-row">
-    <div class="col-8" id="logo">
-
-    </div>
-    {% if user.is_authenticated %}
-    <div class="col-2" id="burning-tasks">
-        <button class="btn btn-block btn-danger" data-url="{% url 'task-burning' %}" id="burning-task-button">BURNING</button>
-    </div>
-    <div class="col-1" id="finished-tasks">
-        <button class="btn btn-block btn-info" data-url="{% url 'task-finished' %}" id="finished-task-button">ARCHIVE</button>
-    </div>
-    <div class="col-1" id="logout">
-        <a class='btn btn-light' href="{% url 'logout' %}">Logout</a>
-    </div>
-    {% endif %}
-</div>
-
-{% endblock %}
 {% block main %}
     <div class="row">
         {% if user.is_authenticated %}
@@ -51,8 +32,8 @@
         </div>
         {% else %}
         <div class="col-12 row align-items-center justify-content-center single-content">
-            <div class="col-auto"><h1>ToDoooM! Welcome to the ToDoManager!!!</h1></div>
-            <div class="col-auto"><h2>We will help You to manage your task, promises and deals!!!</h2></div>
+            <div class="col-auto"><h1>ToDoooM! Welcome to the ToDoManager!</h1></div>
+            <div class="col-auto"><h2>We will help you manage your tasks, promises and deeds!</h2></div>
             <div class=" w-100"></div>
             <div class="col-auto"><h3>Please</h3></div>
             <div class=" w-100"></div>

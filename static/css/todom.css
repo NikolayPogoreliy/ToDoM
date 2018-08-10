@@ -1,3 +1,9 @@
+body{
+    color: #3c3b3b;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+}
 #header-row{
     min-height: 7vh;
     background-color: grey;
@@ -142,6 +148,9 @@ li.list-group-item.custom-list-group-item{
 }
 .single-content{
     margin-top: 30vh;
+}
+.btn{
+    white-space: normal !important;
 }
 .btn:focus {
     box-shadow: none;

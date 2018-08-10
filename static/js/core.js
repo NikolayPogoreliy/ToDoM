@@ -24,6 +24,20 @@ function createTagElement(tagname, cls='', id='', extraData=''){
     return ele;
 }
 
+function capitalize(string){
+    return string.charAt(0).toUpperCase()+string.slice(1);
+}
+
+function getErrorJsonResponse(request, status, error) {
+            var resp = request.responseJSON;
+            var text = '';
+            for (var key in resp){
+                text += capitalize(key)+': '+resp[key]+'<br/>';
+            }
+            $('#errorModal .modal-body').html(text);
+            $('#errorModal').modal('show');
+        }
+
 function getTargetContainer(id){
     var targetContainer = document.getElementById(id);
     targetContainer.innerHTML = '';
@@ -319,7 +333,7 @@ function getProjectCreationForm(url){
     innerContainer.appendChild(container);
     outerContainer.appendChild(innerContainer);
 
-    parentContainer.appendChild(outerContainer);
+    parentContainer.prepend(outerContainer);
 }
 
 function getProjectEditForm(url, id){
@@ -559,8 +573,12 @@ function createTask(e){
     var url = e.currentTarget.dataset['url'];
     var d = document.getElementById('date-input').value;
     d_o = new Date(d);
+    var dt = '';
+    try{
+        var dt = d_o.toJSON().toString();
+    } catch(e){}
 
-    var dt = d_o.toJSON().toString();
+
     var data = {
         title: document.getElementById('title-input').value,
         project: parseInt(document.getElementById('project-input').value),
@@ -586,6 +604,7 @@ function createTask(e){
             $('#add-task-button').prop('disabled', false);
             $('.edit-task').prop('disabled', false);
         },
+        error: getErrorJsonResponse,
     });
 }
 
@@ -617,6 +636,7 @@ function editTask(e){
             $('#add-task-button').prop('disabled', false);
             $('.edit-task').prop('disabled', false);
         },
+        error: getErrorJsonResponse,
     });
 }
 
@@ -634,6 +654,10 @@ function deleteTask(e){
             getAllProjects();
             getTodayTasks();
         },
+        error: function (request, status, error) {
+            $('#errorModal .modal-body').text(request.responseJSON);
+            $('#errorModal').modal('show');
+        }
     });
 }
 
@@ -681,6 +705,7 @@ function createProject(e){
             $('#add-project-button').prop('disabled', false);
             $('.edit-project').prop('disabled', false);
         },
+        error: getErrorJsonResponse,
     });
 }
 
@@ -705,6 +730,7 @@ function editProject(e){
             $('#add-project-button').prop('disabled', false);
             $('.edit-project').prop('disabled', false);
         },
+        error: getErrorJsonResponse
     });
 }
 
@@ -722,5 +748,9 @@ function deleteProject(e){
             getAllProjects();
             getTodayTasks();
         },
+        error: function (request, status, error) {
+            $('#errorModal .modal-body').text(request.responseJSON);
+            $('#errorModal').modal('show');
+        }
     });
 }
